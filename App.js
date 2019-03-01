@@ -8,23 +8,27 @@
  */
 
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View} from 'react-native';
+import {Platform, StyleSheet, Text, View, NativeModules} from 'react-native';
+import CustomBtn from './CustomBtn';
 
-const instructions = Platform.select({
-  ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
-  android:
-    'Double tap R on your keyboard to reload,\n' +
-    'Shake or press menu button for dev menu',
-});
+const CustomBtnManager = NativeModules.CustomBtnManager;
+export default class App extends Component {
 
-type Props = {};
-export default class App extends Component<Props> {
+  onBtnClick = (e)=>{
+    const {title,description} = e.nativeEvent;
+    // alert(title+description);
+    CustomBtnManager.rnCallNative({title,description}).then(res=>{
+      // console.log('=======')
+      alert(title+description);
+    }).catch(err=>{
+
+    })
+  }
+
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.welcome}>Welcome to React Native!</Text>
-        <Text style={styles.instructions}>To get started, edit App.js</Text>
-        <Text style={styles.instructions}>{instructions}</Text>
+        <CustomBtn style={{backgroundColor:'red',height:40,width:100}} title='原生按钮' onBtnClick={this.onBtnClick}/>                
       </View>
     );
   }
