@@ -23,7 +23,7 @@ RCT_EXPORT_VIEW_PROPERTY(onBtnClick, RCTBubblingEventBlock);
 
 //js调用原生
 RCT_EXPORT_METHOD(rnCallNative:(NSDictionary*)dic resolve:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject){
-  resolve(@{@"title":@"rnCallNative",@"description":dic[@"description"]});
+  resolve(@{@"title":@"rnCallNative",@"description":@"回调"});
 }
 
 @end

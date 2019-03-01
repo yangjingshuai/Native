@@ -8,21 +8,34 @@
  */
 
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View, NativeModules} from 'react-native';
+import { StyleSheet,Alert, View, NativeModules} from 'react-native';
 import CustomBtn from './CustomBtn';
 
 const CustomBtnManager = NativeModules.CustomBtnManager;
 export default class App extends Component {
 
+  //原生执行js方法
   onBtnClick = (e)=>{
-    const {title,description} = e.nativeEvent;
-    // alert(title+description);
-    CustomBtnManager.rnCallNative({title,description}).then(res=>{
-      // console.log('=======')
-      alert(title+description);
-    }).catch(err=>{
+    const {title,description} = e.nativeEvent;    
+    Alert.alert(
+      '原生调用完成',
+      '开始js调原生方法并且回调js',
+      [        
+        {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
+        {text: 'OK', onPress: () => this.jsCallNative()},
+      ],
+      { cancelable: false }
+    )    
+  }
 
-    })
+  //js调用原生,并且回调js
+  jsCallNative = ()=>{
+    const p = {title:'js调用原生并且回调js',description:'调用成功'}
+    CustomBtnManager.rnCallNative(p).then(res=>{      
+      alert('js调用原生，收到回调');
+    }).catch(err=>{
+  
+    })  
   }
 
   render() {
